@@ -1,6 +1,6 @@
 #include <QtGui/QApplication>
 #include "qmlapplicationviewer.h"
-
+//(c) mafia
 int main(int argc, char *argv[])
 {
     QApplication app(argc, argv);
