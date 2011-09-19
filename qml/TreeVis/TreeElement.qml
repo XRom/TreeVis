@@ -2,9 +2,9 @@ import QtQuick 1.0
 
 Rectangle {
     id: element
-
     width: 50
     height: 40
+    radius: width / 8
 
     property string key
     onKeyChanged: {
@@ -75,4 +75,25 @@ Rectangle {
                 element.state = "base";
         }
     }
+
+    Rectangle {
+        id: leftP
+        width: parent.width / 4;
+        height: parent.width / 4;
+        radius: parent.width / 8;
+
+        anchors.left: parent.left;
+        anchors.bottom: parent.bottom;
+    }
+
+    Rectangle {
+        id: rightP
+        width: parent.width / 4;
+        height: parent.width / 4;
+        radius: parent.width / 8;
+
+        anchors.right: parent.right;
+        anchors.bottom: parent.bottom;
+    }
+
 }
