@@ -1,4 +1,5 @@
 import QtQuick 1.0
+import "Core"
 
 Rectangle {
     width: 640
@@ -6,7 +7,8 @@ Rectangle {
 
     id: window
 
-    color: "darkgrey"
+    color: "#343434";
+    Image { source: "Core/images/stripes.png"; fillMode: Image.Tile; anchors.fill: parent; opacity: 0.3 }
 
     TreeVis {
         id: treeContainer
@@ -18,9 +20,8 @@ Rectangle {
         color: "white"
         z: 0
         transformOrigin: Item.Center
-        scale: 1
         clip: true
-        anchors.rightMargin: 178
+        anchors.rightMargin: 225
         anchors.leftMargin: 10
         anchors.bottomMargin: 10
         anchors.topMargin: 10
@@ -32,146 +33,84 @@ Rectangle {
 
     }
 
-    Text {
-        id: text2
-        width: 33
-        height: 22
-        text: qsTr("Value:")
-        anchors.top: parent.top
+    Column {
+        anchors.top: window.top
         anchors.topMargin: 10
+
         anchors.left: treeContainer.right
-        anchors.leftMargin: 8
-        verticalAlignment: Text.AlignVCenter
-        horizontalAlignment: Text.AlignHCenter
-        font.pixelSize: 12
-
-    }
-
-    TextInput {
-        id: value
-        x: 516
-        y: 10
-        width: 74
-        height: 22
-        text: qsTr("")
-        font.family: "MS Serif"
-        anchors.top: parent.top
-        anchors.topMargin: 10
-        cursorVisible: true
-        anchors.left: treeContainer.right
-        anchors.leftMargin: 54
-        font.pixelSize: 12
-        opacity: 1
-
-    }
-
-
-    Row {
-        id: row1
-        x: 470
-        y: 44
-        width: 165
-        height: 30
-        anchors.left: treeContainer.right
-        anchors.leftMargin: 8
-        anchors.top: parent.top
-        anchors.topMargin: 44
-        spacing: 5
-
-
-        Button {
-            text: "Добавить"
-            height: 30
-            width: 80
-
-            onClicked: {
-                var tmp = parseInt(value.text);
-                if(!tmp || tmp > 128 || tmp < -127) {
-                    return;
-                } else {
-                    treeContainer.addElement(value.text);
-                }
-            }
-        }
-
-        Button {
-            text: "Найти"
-            height: 30
-            width: 80
-
-            onClicked: {
-
-            }
-        }
-
-
-    }
-
-    Text {
-        id: text1
-        width: 50
-        height: 18
-        text: qsTr("Code:")
-        anchors.left: treeContainer.right
-        anchors.leftMargin: 8
-        anchors.top: parent.top
-        anchors.topMargin: 90
-        font.pixelSize: 12
-    }
-
-    ListView {
-        id: code
-        x: 470
-        y: 117
-        width: 165
-        height: 353
-        anchors.bottom: parent.bottom
-        anchors.bottomMargin: 10
-        anchors.right: parent.right
+        anchors.leftMargin: 10
+        anchors.right: window.right
         anchors.rightMargin: 5
-        anchors.top: parent.top
-        anchors.topMargin: 117
-        anchors.left: treeContainer.right
-        anchors.leftMargin: 8
-        delegate: Item {
-            x: 5
-            height: 40
-            Row {
-                id: row2
-                spacing: 10
-                Rectangle {
-                    width: 40
-                    height: 40
-                    color: colorCode
-                }
 
-                Text {
-                    text: name
-                    anchors.verticalCenter: parent.verticalCenter
-                    font.bold: true
-                }
+        spacing: 20
+        Column {
+            spacing: 4
+            Text {
+                text: "Значение:"
+                font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
+                horizontalAlignment: Qt.AlignRight
+            }
+
+            Input {
+                id: value
+                focus: true
             }
         }
-        model: ListModel {
-            ListElement {
-                name: "Grey"
-                colorCode: "grey"
+
+        Row {
+
+            spacing: 5
+
+            Button {
+                text: "Добавить"
+                width: 100
+                height: 32
+                keyUsing: true;
+                opacity: 1
+
+                onClicked: {
+                    var tmp = parseInt(value.text);
+                    if(!tmp || tmp > 128 || tmp < -127) {
+                        return;
+                    } else {
+                        treeContainer.addElement(value.text);
+                    }
+                }
             }
 
-            ListElement {
-                name: "Red"
-                colorCode: "red"
+            Button {
+                text: "Найти"
+                width: 100
+                height: 32
+                keyUsing: true;
+                opacity: 1
+
+                onClicked: {
+                    var tmp = parseInt(value.text);
+                    if(!tmp || tmp > 128 || tmp < -127) {
+                        return;
+                    } else {
+                        treeContainer.addElement(value.text);
+                    }
+                }
+            }
+        } // Row
+
+        Column {
+            spacing: 4
+            Text {
+                text: "Код:"
+                font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
+                horizontalAlignment: Qt.AlignRight
             }
 
-            ListElement {
-                name: "Blue"
-                colorCode: "blue"
+            /*
+            CodeView {
+                id: code
+                focus: true
             }
-
-            ListElement {
-                name: "Green"
-                colorCode: "green"
-            }
+            /* */
         }
-    }
+
+    } // Column
 }

@@ -34,7 +34,28 @@ include(qmlapplicationviewer/qmlapplicationviewer.pri)
 qtcAddDeployment()
 
 OTHER_FILES += \
-    README.markdown
+    README.markdown \
+    qml/Core/images/toolbutton.sci \
+    qml/Core/images/toolbutton.png \
+    qml/Core/images/titlebar.sci \
+    qml/Core/images/titlebar.png \
+    qml/Core/images/stripes.png \
+    qml/Core/images/quit.png \
+    qml/Core/images/loading.png \
+    qml/Core/images/lineedit.sci \
+    qml/Core/images/lineedit.png \
+    qml/Core/images/gloss.png \
+    qml/Core/qmldir
+
+
+
+
+
+
+
+
+
+
 
 
 

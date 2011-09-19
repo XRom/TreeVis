@@ -8,7 +8,7 @@ Rectangle {
 
     property string key
     onKeyChanged: {
-        if(key == null || key == "" || key == "NULL") {
+        if (key == null || key == "" || key == "NULL") {
             label.text = "NULL";
             element.color = "#FFFFFF";
         } else {
