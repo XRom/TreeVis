@@ -34,8 +34,12 @@ Rectangle {
     }
 
     Column {
+        id: rightColumn
+
         anchors.top: window.top
         anchors.topMargin: 10
+        //anchors.bottom: window.bottom
+        //anchors.bottomMargin: 10
 
         anchors.left: treeContainer.right
         anchors.leftMargin: 10
@@ -96,21 +100,30 @@ Rectangle {
             }
         } // Row
 
-        Column {
-            spacing: 4
-            Text {
-                text: "Код:"
-                font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
-                horizontalAlignment: Qt.AlignRight
-            }
-
-            /*
-            CodeView {
-                id: code
-                focus: true
-            }
-            /* */
+        Text {
+            id: txtCode
+            text: "Код:"
+            font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
+            horizontalAlignment: Qt.AlignRight
         }
+        /* */
+
 
     } // Column
+
+    CodeView {
+        id: code
+        focus: true
+
+        anchors.top: rightColumn.bottom
+        anchors.topMargin: 4 //+ rightColumn.height
+        anchors.bottom: window.bottom
+        anchors.bottomMargin: 10
+
+        anchors.left: treeContainer.right
+        anchors.leftMargin: 10
+        anchors.right: window.right
+        anchors.rightMargin: 5
+
+    }
 }
