@@ -1,8 +1,9 @@
 import QtQuick 1.0
 import "treeMachinery.js" as M
 
-ShadowRectangle {
+Rectangle {
     id: treeVis
+    BorderImage { source: "Core/images/lineedit.sci"; anchors.fill: parent }
 
     function createTree() {
         M.insTree(5);

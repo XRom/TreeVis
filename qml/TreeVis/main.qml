@@ -14,12 +14,10 @@ Rectangle {
         id: treeContainer
         x: 10
         y: 10
-        height: 460
-        width: 452
 
-        color: "white"
-        z: 0
-        transformOrigin: Item.Center
+        //color: "white"
+        //opacity: 0.7
+
         clip: true
         anchors.rightMargin: 225
         anchors.leftMargin: 10
@@ -38,9 +36,6 @@ Rectangle {
 
         anchors.top: window.top
         anchors.topMargin: 10
-        //anchors.bottom: window.bottom
-        //anchors.bottomMargin: 10
-
         anchors.left: treeContainer.right
         anchors.leftMargin: 10
         anchors.right: window.right
@@ -116,7 +111,7 @@ Rectangle {
         focus: true
 
         anchors.top: rightColumn.bottom
-        anchors.topMargin: 4 //+ rightColumn.height
+        anchors.topMargin: 4
         anchors.bottom: window.bottom
         anchors.bottomMargin: 10
 
@@ -125,5 +120,18 @@ Rectangle {
         anchors.right: window.right
         anchors.rightMargin: 5
 
+        opacity: 0.7
+
     }
+
+
+    /* Not now )
+    VDots {
+        anchors.verticalCenter: window.verticalCenter
+        anchors.left: treeContainer.right
+        anchors.leftMargin: 1
+
+        color: "white"
+
+    } */
 }
