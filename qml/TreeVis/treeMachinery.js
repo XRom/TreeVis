@@ -23,6 +23,8 @@ function initTree() {
 
 function insTree(key) {
 
+    var algoList
+
     var f = function (tree, up) {
         if(tree == null) {
             tree = newLeaf(null, null, null, null, null);
@@ -31,8 +33,8 @@ function insTree(key) {
             tree.left = newLeaf(tree, null, null, null, null);
             tree.right = newLeaf(tree, null, null, null, null)
         } else if (tree.key > key)
-            tree.left = f(tree.left, tree);
-        else if (tree.key <= key)
+            tree.left = f(tree.left, tree); 
+        else if (tree.key < key)
             tree.right = f(tree.right, tree);
 
         return tree;
@@ -56,6 +58,8 @@ function getHeight() {
     return f(treeRoot);
 }
 
-
+function getElem() {
+    var
+}
 
 
