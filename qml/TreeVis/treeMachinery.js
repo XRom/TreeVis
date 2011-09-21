@@ -1,4 +1,5 @@
 var treeRoot;
+var registry = [];
 
 //function treeCon(key, parent) {
 //    return {"key": key, "parent": parent, "left": null, "right": null, "elem": null};
@@ -58,8 +59,13 @@ function getHeight() {
     return f(treeRoot);
 }
 
-function getElem() {
-    var
+function getElem(id) {
+    for (var i in registry) {
+        if (registry[i].id == id)
+            return registry[i];
+    }
+
+    return null;
 }
 
 
