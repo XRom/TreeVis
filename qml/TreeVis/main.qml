@@ -46,7 +46,8 @@ Rectangle {
             spacing: 4
             Text {
                 text: "Значение:"
-                font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
+                font.pixelSize: 16; font.bold: true; color: "white";
+                style: Text.Raised; styleColor: "black"
                 horizontalAlignment: Qt.AlignRight
             }
 
@@ -57,9 +58,7 @@ Rectangle {
         }
 
         Row {
-
             spacing: 5
-
             Button {
                 text: "Добавить"
                 width: 100
@@ -72,7 +71,7 @@ Rectangle {
                     if(!tmp || tmp > 128 || tmp < -127) {
                         return;
                     } else {
-                        treeContainer.addElement(value.text);
+                        treeContainer.addElement(tmp);
                     }
                 }
             }
@@ -89,7 +88,7 @@ Rectangle {
                     if(!tmp || tmp > 128 || tmp < -127) {
                         return;
                     } else {
-                        treeContainer.addElement(value.text);
+                        treeContainer.findElement(tmp);
                     }
                 }
             }

@@ -65,14 +65,29 @@ Rectangle {
     ShadowMixin {
     }
 
-    MouseArea {
-        anchors.fill: parent
+/*
+    TreeConnector {
+        id: left
+        toLeft: true
 
-        onClicked: {
-            if (element.state != "highlight")
-                element.state = "highlight";
-            else
-                element.state = "base";
-        }
+        anchors.top: parent.bottom
+        anchors.topMargin: -15
+        anchors.right: parent.left
+        anchors.rightMargin: -15
+        height: 20
+        width: 0
     }
+
+    TreeConnector {
+        id: right
+        toLeft: false
+
+        anchors.top: parent.bottom
+        anchors.topMargin: -15
+        anchors.left: parent.right
+        anchors.leftMargin: -15
+        height: 20
+        width: 60
+    }
+    */
 }

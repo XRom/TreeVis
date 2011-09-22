@@ -3,7 +3,14 @@ import "treeMachinery.js" as M
 
 Rectangle {
     id: treeVis
+    width: 600
+    height: 450
     BorderImage { source: "Core/images/lineedit.sci"; anchors.fill: parent }
+
+    property int hId: 0
+    property int hPid: 0
+    property int hType: 0
+
 
     function createTree() {
         M.treeRoot = null;
@@ -12,76 +19,61 @@ Rectangle {
         M.insTree(4);
         M.insTree(3);
 
+        M.gSeq = [];
         viewTree();
-    }
-
-    function getX(left) {
-        return 10 + 40 * left;
-    }
-
-    function getY(top) {
-        return 10 + 60 * top;
     }
 
     function addElement(el) {
         M.insTree(el);
+    }
 
-        viewTree();
+    function findElement(el){
+        M.findTree(el);
     }
 
     function viewTree() {
-        var h = M.getHeight();
-        var mf = function(tree, top) {
-            if (tree == null)
-                return;
-            if(tree.elem == null) {
-                tree.elem = Qt.createComponent("TreeElement.qml").createObject(treeVis);
-            }
-            tree.elem.x = getX(Math.pow(2, top));
-            tree.elem.y = getY(h - top);
-            tree.elem.key = tree.key;
-            f(tree.left, Math.pow(2, top) - Math.pow(2, top - 1), top - 1);
-            f(tree.right, Math.pow(2, top) + Math.pow(2, top - 1), top - 1);
-        }
-
-        var f = function (tree, left, top) {
-            if (tree == null) {
-                //if(tree.elem == null) {
-                //    var c = Qt.createComponent("NilElement.qml").createObject(treeVis);
-                //}
-                //c.x = getX(left);
-                //c.y = getY(h - top);
-                return;
-            } else {
-                if(tree.elem == null) {
-                    tree.elem = Qt.createComponent("TreeElement.qml").createObject(treeVis);
-                }
-
-                if(tree.key == null) {
-                    tree.elem.key = "NULL";
-                } else {
-                    tree.elem.key = tree.key;
-                }
-
-                tree.elem.x = getX(left);
-                tree.elem.y = getY(h - top);
-
-                if(tree.key == null) {
-                    tree.elem.key = "NULL";
-                } else if(tree.elem.key != tree.key) {
-                    tree.elem.x = tree.elem.y = 0;
-                }
-
-                f(tree.left,  left - Math.pow(2, top - 1), top - 1);
-                f(tree.right, left + Math.pow(2, top - 1), top - 1);
-            }
-        };
-        mf(M.getTree(), h);
+        M.showElems(treeVis);
+        M.rebuildTree(treeVis);
     }
 
-    function calculateTreePos() {
+    Timer {
+        interval: 750; running: true; repeat: true
+        onTriggered: {
+            if (M.gSeq.length <= 0)
+                return;
 
+            var step = M.gSeq.pop();
+            for (var i in step) {
+                var n = step[i].name;
+                var v = step[i].value;
+
+                if ("sethigh" == n) {
+                    hType = 1;
+                    hId = v;
+                } else if ("unhigh" == n) {
+                    hType = 1;
+                    hId = 0;
+                } else if ("shownode" == n){
+                    M.showElems(treeVis);
+                } else if ("movetohome" == n) {
+                    M.rebuildTree(treeVis);
+                }
+            }
+        }
     }
 
     Component.onCompleted: createTree()
+
+    onHIdChanged: {
+        if (hType == 1) {
+            if (hPid != 0)
+                M.getElem(hPid).state = "base";
+
+            if (hId != 0)
+                M.getElem(hId).state = "highlight";
+
+            hPid = hId;
+        }
+    }
+
 }
