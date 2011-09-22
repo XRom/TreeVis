@@ -46,7 +46,11 @@ OTHER_FILES += \
     qml/Core/images/lineedit.png \
     qml/Core/images/gloss.png \
     qml/Core/qmldir \
-    doList.markdown
+    doSequence.markdown
+
+
+
+
 
 
 

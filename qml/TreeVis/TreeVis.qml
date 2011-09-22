@@ -6,6 +6,7 @@ Rectangle {
     BorderImage { source: "Core/images/lineedit.sci"; anchors.fill: parent }
 
     function createTree() {
+        M.treeRoot = null;
         M.insTree(5);
         M.insTree(6);
         M.insTree(4);
@@ -31,6 +32,8 @@ Rectangle {
     function viewTree() {
         var h = M.getHeight();
         var mf = function(tree, top) {
+            if (tree == null)
+                return;
             if(tree.elem == null) {
                 tree.elem = Qt.createComponent("TreeElement.qml").createObject(treeVis);
             }
