@@ -16,7 +16,7 @@ Rectangle {
     onEndXChanged: redraw();
     onEndYChanged: redraw();
 
-    border.width: 2
+    border.width: 1
     border.color: "black"
     smooth: true
     transformOrigin: "TopLeft"
@@ -31,12 +31,12 @@ Rectangle {
         line.x = startX;
         line.y = startY;
         line.height = Math.sqrt(dX*dX + dY*dY);
-        if(line.height < 15) {
+        if(line.height < 8) {
             counterclockwiseLine.height = line.height;
             clockwiseLine.height = line.height;
         } else {
-            counterclockwiseLine.height = 15;
-            clockwiseLine.height = 15;
+            counterclockwiseLine.height = 8;
+            clockwiseLine.height = 8;
         }
 
         line.rotation = angle;
@@ -65,24 +65,58 @@ Rectangle {
     Rectangle {
         id: counterclockwiseLine
         width: 1
-        height: 15
+        height: 8
         smooth: true
         border.color: "black"
-        border.width: 2
+        border.width: 1
         anchors.bottom:  parent.bottom
         transformOrigin: "BottomLeft"
-        rotation: 20
+        rotation: 12
     }
 
     Rectangle {
         id: clockwiseLine
         width: 1
-        height: 15
+        height: 8
         smooth: true
         border.color: "black"
-        border.width: 2
+        border.width: 1
         anchors.bottom:  parent.bottom
         transformOrigin: "BottomRight"
-        rotation: -20
+        rotation: -12
     }
+
+    //Зажигание стрелок
+    /*
+    state: "base"
+
+    states: [
+        State {
+            name: "base"
+
+            PropertyChanges {
+                target: line
+
+                border.color: "black"
+                border.width: 1
+            }
+        },
+
+        State {
+            name: "highlight"
+
+            PropertyChanges {
+                target: line
+
+                border.color: "#993300"
+                border.width: 2
+            }
+        }
+    ]
+
+    transitions: Transition {
+        ColorAnimation  { properties: "border.color"; duration: 200 }
+        NumberAnimation { properties: "border.width"; duration: 200; easing.type: Easing.InOutQuad }
+    }
+    */
 }

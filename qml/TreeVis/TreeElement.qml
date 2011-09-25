@@ -25,6 +25,7 @@ Rectangle {
         color: "black"
     }
 
+    //зажигание элементов
     state: "base"
 
     states: [
@@ -45,8 +46,8 @@ Rectangle {
             PropertyChanges {
                 target: element
 
-                border.color: "red"
-                border.width: 8
+                border.color: "#ee7700"
+                border.width: 3
             }
         }
     ] // states

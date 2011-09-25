@@ -1,8 +1,12 @@
 Qt.include("json2.js");
 
+//корешок
 var treeRoot;
+//Тут хранятся элементы дерева
 var registry = [];
+//Эта переменная хранит число элементов плюс единица
 var ids = 1;
+//Это будет скормлено таймеру в TreeVis.qml
 var gSeq = [];
 
 function createBind(target, prop, when, value) {
@@ -26,6 +30,7 @@ function newLeaf(parent, key, left, right, elem) {
     return element;
 }
 
+//генерация объекта шага последовательности
 function stepCon(name, value) {
     return {"name" : name, "value" : value};
 }
@@ -175,6 +180,7 @@ function getHeight() {
     return f(treeRoot);
 }
 
+//Выдёргивает элемент по его id
 function getElem(id) {
     for (var i in registry) {
         if (registry[i].id == id)
@@ -193,6 +199,7 @@ function getY(top) {
     return 10 + 60 * top;
 }
 
+//Считает положения элементов и стрелок в окне программы
 function rebuildTree(canvas) {
 
     var sz = function (tree) {
@@ -241,7 +248,6 @@ function rebuildTree(canvas) {
 
         return result;
     }
-
 //    var posArrows = function(tree) {
 //        if(tree == null) {
 //            return;
@@ -268,8 +274,8 @@ function rebuildTree(canvas) {
     //posArrows(treeRoot);
 }
 
+//отрисовывает элементы
 function showElems(canvas) {
-
     var mf = function(tree) {
         if (tree == null)
             return;
@@ -287,6 +293,8 @@ function showElems(canvas) {
     mf(treeRoot);
 }
 
+//отрисовывает стрелки, которые потом нельзя выдернуть в TreeVis.qml чтобы подсветить :)
+//возможно их придётся добавить в объект элемента дерева для решения проблемы
 function showArrows(canvas) {
     //Костыль
     var f = function(tree) {
@@ -295,17 +303,13 @@ function showArrows(canvas) {
         }
 
         if(tree.leftConnector == null) {
-            if(tree.left == null) {
-
-            } else {
+            if(tree.left != null) {
                 tree.leftConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
             }
         }
 
         if(tree.rightConnector == null) {
-            if(tree.right == null) {
-
-            } else {
+            if(tree.right != null) {
                 tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
             }
         }

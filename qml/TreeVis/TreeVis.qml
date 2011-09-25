@@ -13,6 +13,7 @@ Rectangle {
     property int hType: 0
 
     function createTree() {
+        //создание начального дерева
         M.treeRoot = null;
         M.insTree(50);
         M.insTree(60);
@@ -41,6 +42,7 @@ Rectangle {
     Timer {
         interval: 750; running: true; repeat: true
         onTriggered: {
+            //тут обрабатывается последовательность команд из treeMachinery.js
             if (M.gSeq.length <= 0)
                 return;
 
@@ -70,12 +72,13 @@ Rectangle {
 
     onHIdChanged: {
         if (hType == 1) {
+            //погасить предыдущий
             if (hPid != 0)
                 M.getElem(hPid).state = "base";
-
+            //зажечь текущий
             if (hId != 0)
                 M.getElem(hId).state = "highlight";
-
+            //текущий становится предыдущим
             hPid = hId;
         }
     }
