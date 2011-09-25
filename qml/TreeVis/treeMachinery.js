@@ -37,7 +37,7 @@ function initTree() {
 function insTree(key) {
     var seq = [];
 
-    var f = function (tree, up) {                
+    var f = function (tree, up) {
         seq.push([
                      stepCon("codeline", "ins_ifTreeNull"),
                  ]);
@@ -175,7 +175,7 @@ function getHeight() {
     return f(treeRoot);
 }
 
-function getElem(id) {    
+function getElem(id) {
     for (var i in registry) {
         if (registry[i].id == id)
             return registry[i].element;
@@ -211,13 +211,61 @@ function rebuildTree(canvas) {
 
         right = sizes(tree.right, x +  1.25 + left, y + 1);
         result = left + 1.25 + right;
-        tree.elem.x = getX(x + result / 2);
-        tree.elem.y = getY(y);
+        //КОСТЫЛЬ
+//        tree.elem.x = getX(x + result / 2);
+//        tree.elem.y = getY(y);
+        var x = getX(x + result / 2);
+        var y = getY(y);
+
+        tree.elem.x = x;
+        tree.elem.y = y;
+
+        var parent = tree.parent;
+        if(parent != null) {
+            var connector = (parent.left == tree) ? parent.leftConnector : parent.rightConnector;
+            if(connector != null) {
+                connector.endX = x + tree.elem.height / 2;
+                connector.endY = y;
+            }
+        }
+
+        if(tree.leftConnector != null) {
+            tree.leftConnector.startX = x;
+            tree.leftConnector.startY = y + tree.elem.height;
+        }
+
+        if (tree.rightConnector != null) {
+            tree.rightConnector.startX = x + tree.elem.width;
+            tree.rightConnector.startY = y + tree.elem.height;
+        }
 
         return result;
     }
 
+//    var posArrows = function(tree) {
+//        if(tree == null) {
+//            return;
+//        }
+
+//        if(tree.leftConnector != null) {
+//            tree.leftConnector.startX = tree.elem.x;
+//            tree.leftConnector.startY = tree.elem.y + tree.elem.height;
+//            tree.leftConnector.endX = tree.left.elem.x + tree.left.elem.height / 2;
+//            tree.leftConnector.endY = tree.left.elem.y;
+//        }
+
+//        if (tree.rightConnector != null) {
+//            tree.rightConnector.startX = tree.elem.x + tree.elem.width;
+//            tree.rightConnector.startY = tree.elem.y + tree.elem.height;
+//            tree.rightConnector.endX = tree.right.elem.x + tree.right.elem.height / 2;
+//            tree.rightConnector.endY = tree.right.elem.y;
+//        }
+//        posArrows(tree.left);
+//        posArrows(tree.right);
+//    }
+
     sizes(treeRoot, 0, 0);
+    //posArrows(treeRoot);
 }
 
 function showElems(canvas) {
@@ -240,27 +288,75 @@ function showElems(canvas) {
 }
 
 function showArrows(canvas) {
-    var f = function (tree) {
-        if (tree == null)
+    //Костыль
+    var f = function(tree) {
+        if(tree == null) {
             return;
-
-        if (tree.left == null) {
-            //tree.leftArrow.type = "null";
-        } else {
-            //tree.elem.left.anchors.bottom = tree.left.top;
-            //tree.elem.left.anchors.left = tree.left.horizontalCenter;
         }
 
-        if (tree.right == null) {
-            //tree.rightArrow.type = "null";
-        } else {
-            //tree.rightArrow.anchors.bottom = tree.right.top;
-            //tree.rightArrow.anchors.right = tree.right.horizontalCenter;
+        if(tree.leftConnector == null) {
+            if(tree.left == null) {
+
+            } else {
+                tree.leftConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+            }
         }
+
+        if(tree.rightConnector == null) {
+            if(tree.right == null) {
+
+            } else {
+                tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+            }
+        }
+
+//        if(tree.left == null) {
+//        } else {
+//            if(tree.leftConnector == null) {
+//                tree.leftConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+//            }
+//            tree.leftConnector.startX = tree.elem.x;
+//            tree.leftConnector.startY = tree.elem.y + tree.elem.height;
+//            tree.leftConnector.endX = tree.left.elem.x + tree.left.elem.height / 2;
+//            tree.leftConnector.endY = tree.left.elem.y;
+//        }
+
+//        if (tree.right == null) {
+//        } else {
+//            if(tree.rightConnector == null) {
+//                tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+//            }
+//            tree.rightConnector.startX = tree.elem.x + tree.elem.width;
+//            tree.rightConnector.startY = tree.elem.y + tree.elem.height;
+//            tree.rightConnector.endX = tree.right.elem.x + tree.right.elem.height / 2;
+//            tree.rightConnector.endY = tree.right.elem.y;
+//        }
 
         f(tree.left);
         f(tree.right);
-    } // var f =
+    }
+
+//    var f = function (tree) {
+//        if (tree == null)
+//            return;
+
+//        if (tree.left == null) {
+//            //tree.leftArrow.type = "null";
+//        } else {
+//            tree.elem.lc.anchors.bottom = tree.left.top;
+//            tree.elem.lc.anchors.left = tree.left.horizontalCenter;
+//        }
+
+//        if (tree.right == null) {
+//            //tree.rightArrow.type = "null";
+//        } else {
+//            tree.elem.rc.anchors.bottom = tree.right.top;
+//            tree.elem.rc.anchors.right = tree.right.horizontalCenter;
+//        }
+
+//        f(tree.left);
+//        f(tree.right);
+//    } // var f =
 
     f(treeRoot);
 }

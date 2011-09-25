@@ -15,9 +15,6 @@ Rectangle {
         x: 10
         y: 10
 
-        //color: "white"
-        //opacity: 0.7
-
         clip: true
         anchors.rightMargin: 225
         anchors.leftMargin: 10

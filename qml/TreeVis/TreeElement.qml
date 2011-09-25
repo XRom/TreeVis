@@ -19,9 +19,12 @@ Rectangle {
 
     Text {
         id: label
+        x: 31
+        y: 19
         anchors.centerIn: parent
         color: "black"
     }
+
     state: "base"
 
     states: [
@@ -53,7 +56,6 @@ Rectangle {
         NumberAnimation { properties: "border.width"; duration: 200; easing.type: Easing.InOutQuad }
     }
 
-
     Behavior on x {
         NumberAnimation {duration: 1000; easing.type: Easing.OutBack}
     }
@@ -62,32 +64,30 @@ Rectangle {
         NumberAnimation {duration: 1000; easing.type: Easing.OutBack}
     }
 
-    ShadowMixin {
-    }
+    ShadowMixin {}
+//Костыль
+//    property TreeConnector lc: leftConnector;
+//    property TreeConnector rc: rightConnector;
 
-/*
-    TreeConnector {
-        id: left
-        toLeft: true
+//    onLcChanged: leftConnector = lc;
+//    onRcChanged: rightConnector = rc;
 
-        anchors.top: parent.bottom
-        anchors.topMargin: -15
-        anchors.right: parent.left
-        anchors.rightMargin: -15
-        height: 20
-        width: 0
-    }
+//    TreeConnector {
+//        id: leftConnector
+//        toLeft: true
+//        anchors.top: parent.bottom
+//        anchors.topMargin: -15
+//        anchors.right: parent.left
+//        anchors.rightMargin: -15
+//    }
 
-    TreeConnector {
-        id: right
-        toLeft: false
+//    TreeConnector {
+//        id: rightConnector
+//        toLeft: false
+//        anchors.top: parent.bottom
+//        anchors.topMargin: -15
+//        anchors.left: parent.right
+//        anchors.leftMargin: -15
+//    }
 
-        anchors.top: parent.bottom
-        anchors.topMargin: -15
-        anchors.left: parent.right
-        anchors.leftMargin: -15
-        height: 20
-        width: 60
-    }
-    */
 }

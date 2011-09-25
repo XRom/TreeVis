@@ -5,19 +5,19 @@ Rectangle {
     id: treeVis
     width: 600
     height: 450
+    radius: 10
     BorderImage { source: "Core/images/lineedit.sci"; anchors.fill: parent }
 
     property int hId: 0
     property int hPid: 0
     property int hType: 0
 
-
     function createTree() {
         M.treeRoot = null;
-        M.insTree(5);
-        M.insTree(6);
-        M.insTree(4);
-        M.insTree(3);
+        M.insTree(50);
+        M.insTree(60);
+        M.insTree(40);
+        M.insTree(30);
 
         M.gSeq = [];
         viewTree();
@@ -33,7 +33,9 @@ Rectangle {
 
     function viewTree() {
         M.showElems(treeVis);
+        M.showArrows(treeVis);
         M.rebuildTree(treeVis);
+        //Костыль
     }
 
     Timer {
@@ -55,8 +57,10 @@ Rectangle {
                     hId = 0;
                 } else if ("shownode" == n){
                     M.showElems(treeVis);
+                    M.showArrows(treeVis);
                 } else if ("movetohome" == n) {
                     M.rebuildTree(treeVis);
+                    //Костыль
                 }
             }
         }
