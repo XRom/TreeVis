@@ -11,6 +11,11 @@ Rectangle {
     property int hId: 0
     property int hPid: 0
     property int hType: 0
+    signal animationOver
+
+    function isAnimationLaunch() {
+        return animationTimer.running;
+    }
 
     function createTree() {
         //создание начального дерева
@@ -26,10 +31,12 @@ Rectangle {
 
     function addElement(el) {
         M.insTree(el);
+        animationTimer.start();
     }
 
     function findElement(el){
         M.findTree(el);
+        animationTimer.start();
     }
 
     function viewTree() {
@@ -40,11 +47,18 @@ Rectangle {
     }
 
     Timer {
-        interval: 750; running: true; repeat: true
+        id: animationTimer
+        interval: 500;
+        repeat: true
+
         onTriggered: {
             //тут обрабатывается последовательность команд из treeMachinery.js
-            if (M.gSeq.length <= 0)
+            if (M.gSeq.length <= 0) {
+                //анимация кончилась, пора разблокировать кнопки
+                animationTimer.stop();
+                treeVis.animationOver();
                 return;
+            }
 
             var step = M.gSeq.pop();
             for (var i in step) {

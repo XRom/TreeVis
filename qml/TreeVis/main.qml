@@ -22,14 +22,13 @@ Rectangle {
         anchors.topMargin: 10
         anchors.fill: parent
 
-        Behavior on anchors.rightMargin {
-            NumberAnimation {duration: 1000; easing.type: Easing.OutBack}
+        onAnimationOver: {
+            inputElementsContainer.opacity = 1;
         }
-
     }
 
     Column {
-        id: rightColumn
+        id: inputElementsContainer
 
         anchors.top: window.top
         anchors.topMargin: 10
@@ -38,11 +37,13 @@ Rectangle {
         anchors.right: window.right
         anchors.rightMargin: 5
 
-        spacing: 20
+        spacing: 10
+
         Column {
             spacing: 4
             Text {
                 text: "Значение:"
+                wrapMode: Text.WordWrap
                 font.pixelSize: 16; font.bold: true; color: "white";
                 style: Text.Raised; styleColor: "black"
                 horizontalAlignment: Qt.AlignRight
@@ -52,7 +53,7 @@ Rectangle {
                 id: value
                 focus: true
             }
-        }
+        }//Column
 
         Row {
             spacing: 5
@@ -64,11 +65,29 @@ Rectangle {
                 opacity: 1
 
                 onClicked: {
-                    var tmp = parseInt(value.text);
-                    if(!tmp || tmp > 128 || tmp < -127) {
+                    if(treeContainer.isAnimationLaunch()) {
+                        return;
+                    }
+
+                    var str = value.text;
+                    if(str.length <= 0) {
+                        return;
+                    }
+
+                    var numbers = "-0123456789";
+
+                    for(var i = 0; i < str.length; i++) {
+                        if(numbers.indexOf(str[i]) == -1) {
+                            return;
+                        }
+                    }
+
+                    var insertVal = parseInt(str);
+                    if(insertVal > 128 || insertVal < -127) {
                         return;
                     } else {
-                        treeContainer.addElement(tmp);
+                        inputElementsContainer.opacity = 0.5;
+                        treeContainer.addElement(insertVal);
                     }
                 }
             }
@@ -79,34 +98,61 @@ Rectangle {
                 height: 32
                 keyUsing: true;
                 opacity: 1
-
                 onClicked: {
-                    var tmp = parseInt(value.text);
-                    if(!tmp || tmp > 128 || tmp < -127) {
+                    if(treeContainer.isAnimationLaunch()) {
+                        return;
+                    }
+
+                    var str = value.text;
+                    if(str.length <= 0) {
+                        return;
+                    }
+
+                    var numbers = "-0123456789";
+
+                    for(var i = 0; i < str.length; i++) {
+                        if(numbers.indexOf(str[i]) == -1) {
+                            return;
+                        }
+                    }
+
+                    var findVal = parseInt(str);
+                    if(findVal > 128 || findVal < -127) {
                         return;
                     } else {
-                        treeContainer.findElement(tmp);
+                        inputElementsContainer.opacity = 0.5;
+                        treeContainer.findElement(findVal);
                     }
                 }
             }
         } // Row
 
-        Text {
-            id: txtCode
-            text: "Код:"
-            font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
-            horizontalAlignment: Qt.AlignRight
-        }
-        /* */
+        Row {
+            spacing: 5
+            Button {
+                text: "Очистить"
+                width: 100
+                height: 32
+                keyUsing: true;
+                opacity: 1
 
+                onClicked: {
+                    if(treeContainer.isAnimationLaunch()) {
+                        return;
+                    }
+
+                    treeContainer.clearTree();
+                }
+            }
+        }// Row
 
     } // Column
 
-    CodeView {
-        id: code
-        focus: true
-
-        anchors.top: rightColumn.bottom
+    Rectangle {
+        id: codeContainer
+        color: "#00000000"
+        opacity: 0
+        anchors.top: inputElementsContainer.bottom
         anchors.topMargin: 4
         anchors.bottom: window.bottom
         anchors.bottomMargin: 10
@@ -116,10 +162,28 @@ Rectangle {
         anchors.right: window.right
         anchors.rightMargin: 5
 
-        opacity: 0.7
+        Text {
+            id: txtCode
+            text: "Код:"
+            font.pixelSize: 16; font.bold: true; color: "white"; style: Text.Raised; styleColor: "black"
+            horizontalAlignment: Qt.AlignRight
+        }
 
+        CodeView {
+            id: code
+            focus: true
+
+            anchors.top: txtCode.bottom
+            anchors.topMargin: 4
+            anchors.left: parent.left
+            anchors.right: parent.right
+            anchors.bottom: parent.bottom
+
+            opacity: 0.7
+
+        }
     }
-
+}
 
     /* Not now )
     VDots {
@@ -130,4 +194,3 @@ Rectangle {
         color: "white"
 
     } */
-}

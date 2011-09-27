@@ -76,7 +76,7 @@ Item {
         State {
             name: "Pressed"
             when: mouseRegion.pressed == true
-            PropertyChanges { target: pressed; opacity: 1 }
+            PropertyChanges { target: pressed; opacity: 0.5 }
         },
         State {
             name: "Focused"
