@@ -46,6 +46,10 @@ Rectangle {
         //Костыль
     }
 
+    function clearTree() {
+        M.clearTree();
+    }
+
     Timer {
         id: animationTimer
         interval: 500;

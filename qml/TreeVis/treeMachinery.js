@@ -364,3 +364,26 @@ function showArrows(canvas) {
 
     f(treeRoot);
 }
+
+function clearTree() {
+    var ct = function(tree) {
+        if (tree == null || tree.elem == null)
+            return;
+        ct(tree.left);
+        ct(tree.right);
+        tree.elem.destroy();
+
+        if(tree.leftConnector != null) {
+            tree.leftConnector.destroy();
+        }
+
+        if (tree.rightConnector != null) {
+            tree.rightConnector.destroy();
+        }
+
+        tree = null;
+    };
+
+    ct(treeRoot);
+    treeRoot = null;
+}
