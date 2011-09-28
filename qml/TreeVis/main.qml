@@ -65,6 +65,8 @@ Rectangle {
                 opacity: 1
 
                 onClicked: {
+                    code.sId = 2;
+                    code.strId = 0;
                     if(treeContainer.isAnimationLaunch()) {
                         return;
                     }
@@ -99,6 +101,8 @@ Rectangle {
                 keyUsing: true;
                 opacity: 1
                 onClicked: {
+                    code.sId = 3;
+                    code.strId = 0;
                     if(treeContainer.isAnimationLaunch()) {
                         return;
                     }
@@ -137,6 +141,7 @@ Rectangle {
                 opacity: 1
 
                 onClicked: {
+                    code.sId = 1;
                     if(treeContainer.isAnimationLaunch()) {
                         return;
                     }

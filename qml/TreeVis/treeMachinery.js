@@ -39,6 +39,9 @@ function insTree(key) {
 
     var f = function (tree, up) {
         seq.push([
+                     stepCon("codeline", "ins_useless"),
+                 ]);
+        seq.push([
                      stepCon("codeline", "ins_ifTreeNull"),
                  ]);
         if (tree == null) {
@@ -116,6 +119,8 @@ function findTree(key) {
                          stepCon("codeline", "find_ifTreeNullElse"),
                          stepCon("sethigh", tree.id)
                      ]);
+
+
             if (tree.key > key) {
                 seq.push([
                              stepCon("codeline", "find_Left"),
@@ -138,6 +143,15 @@ function findTree(key) {
                              ]);
                     seq.push([
                                  stepCon("codeline", "find_finded"),
+                             ]);
+                }
+                //Бесполезная проверка
+                //Нужна т.к. тут алгоритм рекурсивный
+                //А в тз и интерфейсе - итеративный
+                //Я спокоен и не матерюсь.
+                if (tree.key == key) {
+                    seq.push([
+                                 stepCon("codeline", "find_uselessCheck"),
                              ]);
                 }
             }
