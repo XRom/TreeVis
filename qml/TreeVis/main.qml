@@ -151,7 +151,7 @@ Rectangle {
     Rectangle {
         id: codeContainer
         color: "#00000000"
-        opacity: 0
+        opacity: 1
         anchors.top: inputElementsContainer.bottom
         anchors.topMargin: 4
         anchors.bottom: window.bottom

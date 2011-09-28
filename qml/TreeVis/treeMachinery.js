@@ -19,11 +19,6 @@ function createBind(target, prop, when, value) {
     bind = Qt.createQmlObject(str);
 }
 
-
-//function treeCon(key, parent) {
-//    return {"key": key, "parent": parent, "left": null, "right": null, "elem": null};
-//}
-
 function newLeaf(parent, key, left, right, elem) {
     var element = {"key": key, "parent": parent, "left": left,
                    "right": right, "elem": elem, "id": ids++};
@@ -83,14 +78,14 @@ function insTree(key) {
                 tree.right = f(tree.right, tree);
             }
         }
-        seq.push([
-                     stepCon("sethigh", tree.id),
-                     stepCon("codeline", "ins_ifEnd")
-                 ]);
-        seq.push([
-                     stepCon("sethigh", tree.id),
-                     stepCon("codeline", "ins_funend")
-                 ]);
+//        seq.push([
+//                     stepCon("sethigh", tree.id),
+//                     stepCon("codeline", "ins_ifEnd")
+//                 ]);
+//        seq.push([
+//                     stepCon("sethigh", tree.id),
+//                     stepCon("codeline", "ins_funend")
+//                 ]);
         return tree;
     }
 
@@ -146,14 +141,14 @@ function findTree(key) {
                              ]);
                 }
             }
-            seq.push([
-                         stepCon("sethigh", tree.id),
-                         stepCon("codeline", "find_ifEnd")
-                     ]);
-            seq.push([
-                         stepCon("sethigh", tree.id),
-                         stepCon("codeline", "find_funend")
-                     ]);
+//            seq.push([
+//                         stepCon("sethigh", tree.id),
+//                         stepCon("codeline", "find_ifEnd")
+//                     ]);
+//            seq.push([
+//                         stepCon("sethigh", tree.id),
+//                         stepCon("codeline", "find_funend")
+//                     ]);
         }
     }
 
@@ -218,9 +213,8 @@ function rebuildTree(canvas) {
 
         right = sizes(tree.right, x +  1.25 + left, y + 1);
         result = left + 1.25 + right;
+
         //КОСТЫЛЬ
-//        tree.elem.x = getX(x + result / 2);
-//        tree.elem.y = getY(y);
         var x = getX(x + result / 2);
         var y = getY(y);
 
@@ -237,41 +231,27 @@ function rebuildTree(canvas) {
         }
 
         if(tree.leftConnector != null) {
-            tree.leftConnector.startX = x;
-            tree.leftConnector.startY = y + tree.elem.height;
+            tree.leftConnector.startX = x + 5;
+            tree.leftConnector.startY = y + tree.elem.height - 5;
+        }
+
+        if(tree.leftNullPointer != null) {
+            tree.leftNullPointer.startX = x + 5;
+            tree.leftNullPointer.startY = y + tree.elem.height - 5;
         }
 
         if (tree.rightConnector != null) {
-            tree.rightConnector.startX = x + tree.elem.width;
-            tree.rightConnector.startY = y + tree.elem.height;
+            tree.rightConnector.startX = x + tree.elem.width - 5;
+            tree.rightConnector.startY = y + tree.elem.height - 5;
         }
 
+        if(tree.rightNullPointer != null) {
+            tree.rightNullPointer.startX = x + tree.elem.width - 5;
+            tree.rightNullPointer.startY = y + tree.elem.height - 5;
+        }
         return result;
     }
-//    var posArrows = function(tree) {
-//        if(tree == null) {
-//            return;
-//        }
-
-//        if(tree.leftConnector != null) {
-//            tree.leftConnector.startX = tree.elem.x;
-//            tree.leftConnector.startY = tree.elem.y + tree.elem.height;
-//            tree.leftConnector.endX = tree.left.elem.x + tree.left.elem.height / 2;
-//            tree.leftConnector.endY = tree.left.elem.y;
-//        }
-
-//        if (tree.rightConnector != null) {
-//            tree.rightConnector.startX = tree.elem.x + tree.elem.width;
-//            tree.rightConnector.startY = tree.elem.y + tree.elem.height;
-//            tree.rightConnector.endX = tree.right.elem.x + tree.right.elem.height / 2;
-//            tree.rightConnector.endY = tree.right.elem.y;
-//        }
-//        posArrows(tree.left);
-//        posArrows(tree.right);
-//    }
-
     sizes(treeRoot, 0, 0);
-    //posArrows(treeRoot);
 }
 
 //отрисовывает элементы
@@ -293,8 +273,7 @@ function showElems(canvas) {
     mf(treeRoot);
 }
 
-//отрисовывает стрелки, которые потом нельзя выдернуть в TreeVis.qml чтобы подсветить :)
-//возможно их придётся добавить в объект элемента дерева для решения проблемы
+//отрисовывает стрелки, которые добавлены в элемент дерева. если что их можно подсветить
 function showArrows(canvas) {
     //Костыль
     var f = function(tree) {
@@ -302,66 +281,35 @@ function showArrows(canvas) {
             return;
         }
 
-        if(tree.leftConnector == null) {
-            if(tree.left != null) {
+        if(tree.left != null) {
+            if(tree.leftNullPointer != null) {
+                tree.leftNullPointer.destroy();
+            }
+            if(tree.leftConnector == null) {
                 tree.leftConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
             }
-        }
-
-        if(tree.rightConnector == null) {
-            if(tree.right != null) {
-                tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+        } else {
+            if(tree.leftNullPointer == null) {
+                tree.leftNullPointer = Qt.createComponent("TreeNullPointer.qml").createObject(canvas);
             }
         }
 
-//        if(tree.left == null) {
-//        } else {
-//            if(tree.leftConnector == null) {
-//                tree.leftConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
-//            }
-//            tree.leftConnector.startX = tree.elem.x;
-//            tree.leftConnector.startY = tree.elem.y + tree.elem.height;
-//            tree.leftConnector.endX = tree.left.elem.x + tree.left.elem.height / 2;
-//            tree.leftConnector.endY = tree.left.elem.y;
-//        }
-
-//        if (tree.right == null) {
-//        } else {
-//            if(tree.rightConnector == null) {
-//                tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
-//            }
-//            tree.rightConnector.startX = tree.elem.x + tree.elem.width;
-//            tree.rightConnector.startY = tree.elem.y + tree.elem.height;
-//            tree.rightConnector.endX = tree.right.elem.x + tree.right.elem.height / 2;
-//            tree.rightConnector.endY = tree.right.elem.y;
-//        }
+        if(tree.right != null) {
+            if(tree.rightNullPointer != null) {
+                tree.rightNullPointer.destroy();
+            }
+            if(tree.rightConnector == null) {
+                tree.rightConnector = Qt.createComponent("TreeConnector.qml").createObject(canvas);
+            }
+        } else {
+            if(tree.rightNullPointer == null) {
+                tree.rightNullPointer = Qt.createComponent("TreeNullPointer.qml").createObject(canvas);
+            }
+        }
 
         f(tree.left);
         f(tree.right);
     }
-
-//    var f = function (tree) {
-//        if (tree == null)
-//            return;
-
-//        if (tree.left == null) {
-//            //tree.leftArrow.type = "null";
-//        } else {
-//            tree.elem.lc.anchors.bottom = tree.left.top;
-//            tree.elem.lc.anchors.left = tree.left.horizontalCenter;
-//        }
-
-//        if (tree.right == null) {
-//            //tree.rightArrow.type = "null";
-//        } else {
-//            tree.elem.rc.anchors.bottom = tree.right.top;
-//            tree.elem.rc.anchors.right = tree.right.horizontalCenter;
-//        }
-
-//        f(tree.left);
-//        f(tree.right);
-//    } // var f =
-
     f(treeRoot);
 }
 
@@ -379,6 +327,14 @@ function clearTree() {
 
         if (tree.rightConnector != null) {
             tree.rightConnector.destroy();
+        }
+
+        if(tree.leftNullPointer != null) {
+            tree.leftNullPointer.destroy();
+        }
+
+        if (tree.rightNullPointer != null) {
+            tree.rightNullPointer.destroy();
         }
 
         tree = null;

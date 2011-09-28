@@ -69,6 +69,10 @@ Rectangle {
                 var n = step[i].name;
                 var v = step[i].value;
 
+                if(n == "codeline" && v == "find_finded") {
+                    M.getElem(hId).startTwink();
+                }
+
                 if ("sethigh" == n) {
                     hType = 1;
                     hId = v;

@@ -2,7 +2,7 @@ import QtQuick 1.0
 
 Rectangle {
     id: element
-
+    radius: 5
     width: 50
     height: 40
 
@@ -47,10 +47,56 @@ Rectangle {
                 target: element
 
                 border.color: "#ee7700"
-                border.width: 3
+                border.width: 4
+            }
+        },
+
+        State {
+            name: "highlight_red"
+
+            PropertyChanges {
+                target: element
+                border.color: "red"
+                border.width: 5
+            }
+
+        }
+
+    ] // states
+
+    Timer {
+        id: timerTwink
+        repeat: true
+        interval: 200
+
+        onTriggered: {
+            if(element.state == "highlight_red") {
+                element.state = "base";
+            } else if(element.state == "base") {
+                element.state = "highlight_red";
             }
         }
-    ] // states
+    }
+
+    Timer {
+        id: timerOffTwink
+        repeat: true
+        interval: 3000
+
+        onTriggered: {
+            if(element.state == "highlight_red") {
+                element.state = "base";
+            }
+
+            timerTwink.stop();
+            timerOffTwink.stop();
+        }
+    }
+
+    function startTwink() {
+        timerTwink.start();
+        timerOffTwink.start();
+    }
 
     transitions: Transition {
         ColorAnimation  { properties: "border.color"; duration: 200 }
@@ -66,29 +112,23 @@ Rectangle {
     }
 
     ShadowMixin {}
-//Костыль
-//    property TreeConnector lc: leftConnector;
-//    property TreeConnector rc: rightConnector;
 
-//    onLcChanged: leftConnector = lc;
-//    onRcChanged: rightConnector = rc;
+    Rectangle {
+        width: 10
+        height: 10
+        radius: 5
 
-//    TreeConnector {
-//        id: leftConnector
-//        toLeft: true
-//        anchors.top: parent.bottom
-//        anchors.topMargin: -15
-//        anchors.right: parent.left
-//        anchors.rightMargin: -15
-//    }
+        anchors.left: parent.left
+        anchors.bottom: parent.bottom
+    }
 
-//    TreeConnector {
-//        id: rightConnector
-//        toLeft: false
-//        anchors.top: parent.bottom
-//        anchors.topMargin: -15
-//        anchors.left: parent.right
-//        anchors.leftMargin: -15
-//    }
+    Rectangle {
+        width: 10
+        height: 10
+        radius: 5
+
+        anchors.right: parent.right
+        anchors.bottom: parent.bottom
+    }
 
 }

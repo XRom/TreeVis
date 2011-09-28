@@ -28,7 +28,7 @@ Rectangle {
         if(dY < 0) {
             angle += 180;
         }
-        line.x = startX;
+        line.x = startX - 0.5;
         line.y = startY;
         line.height = Math.sqrt(dX*dX + dY*dY);
         if(line.height < 8) {
