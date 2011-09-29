@@ -102,7 +102,7 @@ Rectangle {
 
     Timer {
         id: animationTimer
-        interval: 500;
+        interval: 1000;
         repeat: true
 
         onTriggered: {

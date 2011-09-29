@@ -1,6 +1,8 @@
 import QtQuick 1.0
 
 Rectangle {
+    BorderImage { source: "Core/images/lineedit.sci"; anchors.fill: parent }
+
     id: mainCodeRectangle
     width: 180
     height: 200
@@ -161,7 +163,7 @@ Rectangle {
 
         delegate: codeDelegate
         //Подсветка
-        highlight: Rectangle { color: "lightsteelblue"; radius: 5 }
+        highlight: Rectangle { color: "lightsteelblue"; radius: 5; opacity: 1 }
         focus: true
     }
 
